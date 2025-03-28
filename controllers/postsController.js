@@ -4,7 +4,13 @@ const posts = require('../data/posts');
 //     res.send('Lista delle pizze');
 // }
 function index(req, res) {
-    res.json(posts);
+    let filteredPosts = posts;
+
+    if(req.query.tags){
+        filteredPosts = posts.filter(ricetta=>ricetta.tags.includes(req.query.tags));
+    }
+
+    res.json(filteredPosts);
 };
 
 function show(req, res) {
