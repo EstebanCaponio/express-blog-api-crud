@@ -6,8 +6,8 @@ const posts = require('../data/posts');
 function index(req, res) {
     let filteredPosts = posts;
 
-    if(req.query.tags){
-        filteredPosts = posts.filter(ricetta=>ricetta.tags.includes(req.query.tags));
+    if (req.query.tags) {
+        filteredPosts = posts.filter(ricetta => ricetta.tags.includes(req.query.tags));
     }
 
     res.json(filteredPosts);
@@ -31,7 +31,23 @@ function show(req, res) {
     res.json(ricetta);
 }
 function store(req, res) {
-    res.send('Creazione nuova ricetta');
+
+    // creazione nuovo id
+    const newId = posts[posts.length - 1].id + 1;
+
+    const newRicetta = {
+        id: newId,
+        title:req.body.title,
+        content:req.body.content,
+        image:req.body.image,
+        tags:req.body.tags
+    }
+
+    posts.push(newRicetta);
+    console.log(posts);
+
+    res.status(201);
+    res.json(newRicetta);
 }
 function update(req, res) {
     res.send('Modifica integrale della ricetta ' + req.params.id);
@@ -40,7 +56,7 @@ function modify(req, res) {
     res.send('Modifica parziale della ricetta ' + req.params.id);
 }
 function destroy(req, res) {
-    
+
     const id = parseInt(req.params.id);
 
     const ricetta = posts.find(ricetta => ricetta.id === id);
