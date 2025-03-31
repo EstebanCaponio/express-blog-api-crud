@@ -37,10 +37,10 @@ function store(req, res) {
 
     const newRicetta = {
         id: newId,
-        title:req.body.title,
-        content:req.body.content,
-        image:req.body.image,
-        tags:req.body.tags
+        title: req.body.title,
+        content: req.body.content,
+        image: req.body.image,
+        tags: req.body.tags
     }
 
     posts.push(newRicetta);
@@ -50,7 +50,27 @@ function store(req, res) {
     res.json(newRicetta);
 }
 function update(req, res) {
-    res.send('Modifica integrale della ricetta ' + req.params.id);
+    const id = parseInt(req.params.id);
+
+    const ricetta = posts.find(ricetta => ricetta.id === id);
+
+    if (!ricetta) {
+        res.status(404);
+
+        return res.json({
+            status: 404,
+            console: 'not found',
+            message: 'ricetta non trovata'
+        })
+    }
+    // aggiorno ricetta
+    ricetta.title = req.body.title;
+    ricetta.content = req.body.content;
+    ricetta.image = req.body.image;
+    ricetta.tags = req.body.tags;
+
+    console.log(posts);
+    res.json(ricetta);
 }
 function modify(req, res) {
     res.send('Modifica parziale della ricetta ' + req.params.id);
