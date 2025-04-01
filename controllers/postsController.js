@@ -4,6 +4,7 @@ const posts = require('../data/posts');
 //     res.send('Lista delle pizze');
 // }
 function index(req, res) {
+    ciao();
     let filteredPosts = posts;
 
     if (req.query.tags) {
